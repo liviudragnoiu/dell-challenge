@@ -32,5 +32,40 @@ namespace DellChallenge.D2.Web.Controllers
             _productService.Add(newProduct);
             return RedirectToAction("Index");
         }
+
+        [HttpGet("{id}")]
+        [EnableCors("AllowReactCors")]
+        public IActionResult Delete(int id)
+        {
+            var model = _productService.Delete(id.ToString());
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
+        [HttpGet("{id}")]
+        [EnableCors("AllowReactCors")]
+        public IActionResult Update(int id)
+        {
+            var model = _productService.Get(id);
+
+            if(model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Update(NewProductModel newProduct)
+        {
+            _productService.Add(newProduct);
+            return RedirectToAction("Index");
+        }
     }
 }

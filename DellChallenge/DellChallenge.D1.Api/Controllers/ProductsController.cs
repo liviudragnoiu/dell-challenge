@@ -2,6 +2,7 @@
 using DellChallenge.D1.Api.Dto;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace DellChallenge.D1.Api.Controllers
@@ -28,7 +29,14 @@ namespace DellChallenge.D1.Api.Controllers
         [EnableCors("AllowReactCors")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+            var product = _productsService.Get(id.ToString());
+
+            if(product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product);
         }
 
         [HttpPost]
@@ -41,14 +49,44 @@ namespace DellChallenge.D1.Api.Controllers
 
         [HttpDelete("{id}")]
         [EnableCors("AllowReactCors")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
+           var product = _productsService.Delete(id.ToString());
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok();
         }
 
         [HttpPut("{id}")]
         [EnableCors("AllowReactCors")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult Put(int id, [FromBody] string value)
         {
+            var product = _productsService.Get(id.ToString());
+
+            if (product == null)
+            {
+
+                var putProduct = JsonConvert.DeserializeObject(value, typeof(NewProductDto)) as NewProductDto;
+
+                if(putProduct == null)
+                {
+                    return BadRequest();
+                }
+
+                product.Name = putProduct.Name;
+                product.Category = putProduct.Category;
+                _productsService.Update(product);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            return Ok();
         }
     }
 }

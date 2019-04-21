@@ -6,6 +6,15 @@ namespace DellChallenge.D2.Web.Services
 {
     public class ProductService : IProductService
     {
+        public ProductModel Get(string id)
+        {
+            var apiClient = new RestClient("http://localhost:5000/api");
+            var apiRequest = new RestRequest("products", Method.GET, DataFormat.Json);
+            apiRequest.AddJsonBody(id);
+            var apiResponse = apiClient.Execute<ProductModel>(apiRequest);
+            return apiResponse.Data;
+        }
+
         public ProductModel Add(NewProductModel newProduct)
         {
             var apiClient = new RestClient("http://localhost:5000/api");
@@ -21,6 +30,15 @@ namespace DellChallenge.D2.Web.Services
             var apiClient = new RestClient("http://localhost:5000/api");
             var apiRequest = new RestRequest("products", Method.GET, DataFormat.Json);
             var apiResponse = apiClient.Execute<List<ProductModel>>(apiRequest);
+            return apiResponse.Data;
+        }
+
+        public ProductModel Delete(string id)
+        {
+            var apiClient = new RestClient("http://localhost:5000/api");
+            var apiRequest = new RestRequest("products", Method.GET, DataFormat.Json);
+            apiRequest.AddJsonBody(id);
+            var apiResponse = apiClient.Execute<ProductModel>(apiRequest);
             return apiResponse.Data;
         }
     }

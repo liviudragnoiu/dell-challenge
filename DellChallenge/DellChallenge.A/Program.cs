@@ -7,6 +7,10 @@ namespace DellChallenge.A
         static void Main(string[] args)
         {
             // State and explain console output order.
+            // Class B derives from class A so when instantiate a class B object first called will be base class A contructor
+            // base() -> this()
+            // after that child contructor B will be called and will call setter for B.Age which have a WriteLine inside
+            // Age.set{ }
             new B();
             Console.ReadKey();
         }
