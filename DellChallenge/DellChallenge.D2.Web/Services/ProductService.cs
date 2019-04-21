@@ -9,8 +9,8 @@ namespace DellChallenge.D2.Web.Services
         public ProductModel Get(string id)
         {
             var apiClient = new RestClient("http://localhost:5000/api");
-            var apiRequest = new RestRequest("products", Method.GET, DataFormat.Json);
-            apiRequest.AddJsonBody(id);
+            var apiRequest = new RestRequest("products/{id}", Method.GET, DataFormat.Json);
+            apiRequest.AddUrlSegment("id", id);
             var apiResponse = apiClient.Execute<ProductModel>(apiRequest);
             return apiResponse.Data;
         }
@@ -36,8 +36,18 @@ namespace DellChallenge.D2.Web.Services
         public ProductModel Delete(string id)
         {
             var apiClient = new RestClient("http://localhost:5000/api");
-            var apiRequest = new RestRequest("products", Method.GET, DataFormat.Json);
-            apiRequest.AddJsonBody(id);
+            var apiRequest = new RestRequest("products/{id}", Method.DELETE, DataFormat.Json);
+            apiRequest.AddUrlSegment("id", id);
+            var apiResponse = apiClient.Execute<ProductModel>(apiRequest);
+            return apiResponse.Data;
+        }
+
+        public ProductModel Update(ProductModel product)
+        {
+            var apiClient = new RestClient("http://localhost:5000/api");
+            var apiRequest = new RestRequest("products/{id}", Method.PUT, DataFormat.Json);
+            apiRequest.AddUrlSegment("id", product.Id);
+            apiRequest.AddJsonBody(product);
             var apiResponse = apiClient.Execute<ProductModel>(apiRequest);
             return apiResponse.Data;
         }

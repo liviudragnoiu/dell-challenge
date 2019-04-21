@@ -29,27 +29,33 @@ namespace DellChallenge.D2.Web.Controllers
         [HttpPost]
         public IActionResult Add(NewProductModel newProduct)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
             _productService.Add(newProduct);
+
             return RedirectToAction("Index");
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Delete(int id)
+        [HttpGet]
+        public IActionResult Delete(string id)
         {
-            var model = _productService.Delete(id.ToString());
+            var model = _productService.Delete(id);
 
-            if (model == null)
-            {
-                return NotFound();
-            }
+            //if (model == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return Ok();
+            return RedirectToAction("Index");
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Update(int id)
+        [HttpGet]
+        public IActionResult Update(string id)
         {
-            var model = _productService.Get(id.ToString());
+            var model = _productService.Get(id);
 
             if(model == null)
             {
@@ -60,9 +66,16 @@ namespace DellChallenge.D2.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(NewProductModel newProduct)
+        public IActionResult Update(ProductModel updateProduct)
         {
-            _productService.Add(newProduct);
+
+            if (!ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            _productService.Update(updateProduct);
+
             return RedirectToAction("Index");
         }
     }

@@ -11,8 +11,8 @@ namespace DellChallenge.D1.Api.Dal
 
         ProductDto Add(NewProductDto newProduct);
 
-        ProductDto Delete(string id);
+        bool Delete(string id);
 
-        void Update(ProductDto product);
+        bool Update(ProductDto product);
     }
 }

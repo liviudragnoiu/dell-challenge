@@ -12,5 +12,7 @@ namespace DellChallenge.D2.Web.Services
         ProductModel Add(NewProductModel newProduct);
 
         ProductModel Delete(string id);
+
+        ProductModel Update(ProductModel product);
     }
 }

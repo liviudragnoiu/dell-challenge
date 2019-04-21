@@ -27,9 +27,9 @@ namespace DellChallenge.D1.Api.Controllers
 
         [HttpGet("{id}")]
         [EnableCors("AllowReactCors")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<ProductDto> Get(string id)
         {
-            var product = _productsService.Get(id.ToString());
+            var product = _productsService.Get(id);
 
             if(product == null)
             {
@@ -49,11 +49,11 @@ namespace DellChallenge.D1.Api.Controllers
 
         [HttpDelete("{id}")]
         [EnableCors("AllowReactCors")]
-        public ActionResult Delete(int id)
+        public ActionResult<ProductDto> Delete(string id)
         {
-           var product = _productsService.Delete(id.ToString());
+           var isDeleted = _productsService.Delete(id);
 
-            if (product == null)
+            if (!isDeleted)
             {
                 return NotFound();
             }
@@ -63,27 +63,24 @@ namespace DellChallenge.D1.Api.Controllers
 
         [HttpPut("{id}")]
         [EnableCors("AllowReactCors")]
-        public ActionResult Put(int id, [FromBody] string value)
+        public ActionResult Put(string id, [FromBody] ProductDto putProduct)
         {
-            var product = _productsService.Get(id.ToString());
-
-            if (product == null)
+            if (putProduct == null)
             {
+                return BadRequest();
+            }
 
-                var putProduct = JsonConvert.DeserializeObject(value, typeof(NewProductDto)) as NewProductDto;
+            var product = _productsService.Get(id);
 
-                if(putProduct == null)
-                {
-                    return BadRequest();
-                }
-
+            if (product != null)
+            {
                 product.Name = putProduct.Name;
                 product.Category = putProduct.Category;
                 _productsService.Update(product);
             }
             else
             {
-                return NotFound();
+                _productsService.Add(putProduct);
             }
 
             return Ok();

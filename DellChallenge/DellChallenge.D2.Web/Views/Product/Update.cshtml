@@ -1,4 +1,4 @@
-﻿@model DellChallenge.D2.Web.Models.NewProductModel
+﻿@model DellChallenge.D2.Web.Models.ProductModel
 
 @{
     ViewData["Title"] = "Update";
@@ -12,6 +12,8 @@
     <div class="col-md-4">
         <form asp-action="Update">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" id="Id" value="@Model.Id" />
+
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -32,3 +34,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
