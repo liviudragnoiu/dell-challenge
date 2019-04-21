@@ -34,7 +34,6 @@ namespace DellChallenge.D2.Web.Controllers
         }
 
         [HttpGet("{id}")]
-        [EnableCors("AllowReactCors")]
         public IActionResult Delete(int id)
         {
             var model = _productService.Delete(id.ToString());
@@ -48,10 +47,9 @@ namespace DellChallenge.D2.Web.Controllers
         }
 
         [HttpGet("{id}")]
-        [EnableCors("AllowReactCors")]
         public IActionResult Update(int id)
         {
-            var model = _productService.Get(id);
+            var model = _productService.Get(id.ToString());
 
             if(model == null)
             {
